@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        class Hello { // 相当于新建了一个类
+             sayHello(params) {
+                console.log('hello')
+            }  
+        }
+        (()=>{
+           Hello.prototype.sayHello() 
+           var a = new Hello //可以通过新建相同类继承方法
+           a.sayHello();
+           a.sayHello = () => {
+            console.log('88')
+           }
+           a.sayHello();
+        })()
+    </script>
+    <div>
+        <button type="button" onclick="a.sayHello()">hello</button>
+    </div>
+</body>
+</html>

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        function await1() {
+            console.log('等待开始')
+            let wait = setTimeout(()=>{
+                console.log('等待结束')
+            },3000)
+            return wait
+        }
+        async function test() { 
+            let a = await await1(); //await 必须在有前置标题async函数中
+            console.log(a);
+            console.log('方法2执行开始')
+            setTimeout(()=>{
+                console.log('方法2执行结束')
+            },2000) 
+        }
+        //当返回的不是一个promise时，async只当作正常函数输出
+         function await2( ){
+            console.log('当有promise时，开始计时')
+            // let p = new Promise((resolve,reject)=>{
+            //     setTimeout(()=>{
+            //         console.log('计时结束')
+            //     },1000)
+            // })
+            return new Promise((resolve,reject)=>{
+                setTimeout(()=>{
+                    console.log('计时结束')
+                    resolve('fun4 result');
+                },1000)
+            })
+        }
+        async function test2(){
+         await await2(); //程序会停在这里等待 await2（） 执行完毕
+          console.log('end')
+        }
+        //当返回的时是promise时，会等待执行结束
+        //可以运用此功能实现sleep
+        function sleep(){
+            return new Promise((resolve)=>{
+                console.log('等待1s')
+                setTimeout(()=>{
+                    console.log('等待结束')
+                    resolve('fun4 result');
+                },1000)
+            })
+            // return a;
+        }
+        async function text3(){
+            await sleep();
+            console.log('end')
+        }
+        //练习隔一秒输出0，1，2，3，4，5
+        async function text4(){    
+             for(var i=0;i<5;i++){
+                    console.log(i)
+                    await sleep();
+            }
+            console.log(i);
+        }
+    </script>
+    <div>
+        <h1>async练习</h1>
+        <button type="button" onclick="test()">输出</button>
+        <button type="button" onclick="test2()">输出2</button>
+        <button type="button" onclick="text3()">sleep</button>
+        <button type="button" onclick="text4()">练习</button>
+    </div>
+</body>
+</html>

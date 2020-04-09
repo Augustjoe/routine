@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        //将类数组对象和可遍历对象转为数组
+        let arrayLike = {
+        '0': 'a',
+        '1': 'b',
+        '2': 'c',
+        length: 3
+        }
+        // ES5的写法
+        var arr1 = [].slice.call(arrayLike); // ['a', 'b', 'c']
+        // ES6的写法
+        let arr2 = Array.from(arrayLike); // ['a', 'b', 'c']
+
+        //将一组值转为数组
+        let arr = Array.of(2, 3, 'reng');
+        console.log(arr); // [2, 3, 'reng']
+        console.log(arr.pop()); // reng
+        Array.of(); // [] 
+        Array.of('reng'); // ['reng']
+        Array.of(2, 'reng'); // [2, 'reng']
+        var arrtext = [1,2,3,4,5,6,7,8,9,10]
+        // copyWithin(target, start = 0, end = this.length): 拷贝指定数组的范围值
+        console.log(arrtext.copyWithin(2,1,4)); //[1, 2, 2, 3, 4, 6, 7, 8, 9, 10]
+
+        // find(fn): 用于查找第一个符合条件的数组成员，没有返回undefined
+        console.log(arrtext.find((x)=>{return x==1}))
+        // findIndex(fn): 用于查找第一个符合条件的数组成员的位置，没有返回-1
+        // entries(): 对键值对的遍历
+        // keys(): 对键的遍历
+        // values(): 对值的遍历
+        // includes(el): 返回一个布尔值，表示某个数组是否包含给定的值，与字符串的include(el)方法相似
+        // flat(num): 将嵌套的数组拉平，num是遍历的深度
+
+
+    </script>
+    <div>
+        <h2>数组的变化练习</h2>
+    </div>
+</body>
+</html>
