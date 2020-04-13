@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        //ES6语法可以将算式放在赋值的方括号内
+        let lastWord = 'last word';
+
+        const a = {
+        'first word': 'hello',
+        [lastWord]: 'world',
+        ['end'+'symbol']: '!'
+        };
+
+        a['first word'] // 'hello'
+        a[lastWord] // 'world'
+        a['last word'] // 'world'
+        a['endsymbol'] // '!'
+
+        //ES6将数组的扩展运算符引入到对象中
+        let z = { a: 3, b: 4 };
+        let n = { ...z }; // 关键点
+        console.log(n)  // { a: 3, b: 4 }
+
+        //一些新增的对象API
+        //比较俩个值是否严格相等 Object.is(arg1, arg2): 比较两个值是否严格相等，与===行为基本一致
+        var arg1 = 0;
+        var arg2 = undefined;
+        console.log(Object.is(arg1,arg2)); //false
+
+        //Object.assign(target, source1, ...): 用于对象的合并，将源对象(source)的所有可枚举属性，复制到目标对象(target)。属于浅拷贝
+        var obj1 = {a:1,b:2,c:3}
+        var obj2 = {d:4};
+        var obj3 = { }
+        Object.assign(obj3,obj2,obj1) // 合并后的顺序会按照写拷贝的顺序排列
+        obj1.a = 5
+        console.log(obj3,obj2);//{d: 4, a: 1, b: 2, c: 3} {d: 4}
+
+        //Object.keys(obj): 返回一个数组，成员是参数对象自身的（不含继承的）所有可遍历（enumerable）属性的键名
+        console.log(Object.keys(obj1)) //["a", "b", "c"]
+
+        //Object.values(obj): 方法返回一个数组，成员是参数对象自身的（不含继承的）所有可遍历（enumerable）属性的键值。
+        console.log(Object.values(obj1)) //[5, 2, 3]
+
+        //Object.entries(obj): 方法返回一个数组，成员是参数对象自身的（不含继承的）所有可遍历（enumerable）属性的键值对数组。
+        console.log(Object.entries(obj1)) //[["a", 5],["b", 2],["c", 3]]
+    </script>
+    <div>
+        <h2>对象扩展练习</h2>
+    </div>
+</body>
+</html>

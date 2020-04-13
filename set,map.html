@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        //set 数组去重 set具有元素唯一的特点
+        var arr1 = [1,2,3,3,4,5,4,5]
+        console.log(new Set(arr1)) //set格式{1, 2, 3, 4, 5}
+        var setArr = new Set(arr1);
+        console.log([...new Set(arr1)])//array [1,2,3,4,5]
+
+        //set 的相关方法
+        // size: 返回实例成员的总数
+        console.log(setArr.size) // 5 
+        
+        // add(value): 添加某个值，返回Set结构本身
+        console.log(setArr.add(6))//{1, 2, 3, 4, 5, 6}
+        
+        // delete(value): 删除某个值，返回一个布尔值，表示删除是否成功。
+        console.log(setArr.delete(6)) //true
+        
+        // has(value): 返回一个布尔值，表示该值是否为Set的成员
+        console.log(setArr.has(1)) //true
+        
+        // keys():返回键名的遍历器。
+        console.log(setArr.keys()) // SetIterator {1, 2, 3, 4, 5}
+
+        // values(): 返回键值的遍历器。
+        console.log(setArr.values()) //SetIterator {1, 2, 3, 4, 5}
+
+        // entries(): 返回键值对的遍历器。
+        console.log(setArr.entries()) // {1 => 1, 2 => 2, 3 => 3, 4 => 4, 5 => 5}
+
+        // forEach(): 使用回调函数遍历每个成员
+        setArr.forEach(i=>{console.log(i)}) //1 2 3 4 5
+
+        // clear(): 清除所有成员，没有返回值。
+        console.log(setArr.clear()); //undefined
+        console.log(setArr) //Set(0) {}
+
+
+    </script>
+    <div>
+        <h2>set，map的数据结构</h2>
+    </div>
+</body>
+</html>
