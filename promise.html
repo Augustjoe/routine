@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+      
+
+        // Promise是异步编程的一种解决方案，比传统的解决方案“回调函数和事件”更合理和更强大。
+        // Promise对象有以下两个特点：
+        // 对象的状态不受外界影响。Promise对象代表一个异步操作，有三种状态：pending（进行中）、fulfilled（已成功）和rejected（已失败）。
+        // 一旦状态改变，就不会再变，任何时候都可以得到这个结果。Promise对象的状态改变，只有两种情况：从pending变成fulfilled（fulfilled也称resolved）和从pending变成rejected。
+        var p = new Promise(
+            function(resolve){
+                console.log('开始执行')
+                setTimeout(resolve,1000,'成功');
+                
+            }
+        ).then(value=>{
+            console.log(value)
+            setTimeout(console.log,1000,'梅开二度')
+          }
+        ).then(
+            console.log('end')
+        )
+       
+        //catch
+        //Promise.prototype.catch方法是.then(null, rejection)或.then(undefined, rejection)的别名，用于指定发生错误时的回调函数。
+        var p1 = function(a){
+            new Promise(
+            function(rasolve,reject){
+              var d = Math.floor(Math.random()*10)
+              if(a>d){
+                  rasolve(a,d)
+              }else{
+                  reject(a,d,error)
+              }
+            }
+            ).then(
+                (a,b)=>{
+                alert(`${a}大于${b},你赢了`)
+            }).catch(
+                (err,a,d,)=>{
+                    console.log(err)
+                    alert(`${d}大于${a},你输了`)
+                }
+            )
+        }
+
+        function text(){
+            var i = document.getElementById("input1").value
+            p1(i)
+        }
+    </script>
+    <div>
+        <h2>promise 练习</h2>
+        <button type="submit" onclick="text()">摇大小</button>
+        <input type="text" id="input1">
+    </div>
+</body>
+</html>
