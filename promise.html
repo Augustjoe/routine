@@ -34,26 +34,76 @@
             function(rasolve,reject){
               var d = Math.floor(Math.random()*10)
               if(a>d){
-                  rasolve(a,d)
+                  rasolve([a,d])
               }else{
-                  reject(a,d,error)
+                  reject([a,d]) 
               }
             }
             ).then(
-                (a,b)=>{
-                alert(`${a}大于${b},你赢了`)
-            }).catch(
-                (err,a,d,)=>{
-                    console.log(err)
-                    alert(`${d}大于${a},你输了`)
+                (value)=>{
+                alert(`${value[0]}大于${value[1]},你赢了`)
+            }).catch( 
+                (err)=>{ // catch只会传递reject传递的对象或数组
+                    alert(`${err[1]}大于${err[0]},你输了`)
+                }
+            ).finally(
+                (fin)=>{
+                    console.log(fin);  //undefind
+                    document.getElementById('input1').value = ' '
                 }
             )
         }
+
+        //复习下定时器setTimeout
+        // var timeoutID = scope.setTimeout(function[, dvelay, param1, param2, ...]);
+        // function 是你想要在到期时间（delay毫秒）之后执行的函数。
+        // delay 是可选语法，表示延迟的毫秒数。
+        // param1, ..., paramN 是可选的附加参数，一旦定时器到期，它们会作为参数传递给function
+
+        // finally方法
+        // Promise.prototype.finally()方法（其不接受任何参数）用于指定不管Promise对象最后状态如何，都会执行的操作。该方法是 ES2018 引入标准的。
 
         function text(){
             var i = document.getElementById("input1").value
             p1(i)
         }
+
+        // 构造函数方法Promise.all方法用于将多个Promise实例，包装成一个新的Promise实例。
+        // const p = Promise.all([p1, p2, p3]);
+
+        var msgStage = function(msg){
+            return new Promise(
+                function(resolve){
+                    console.log(`第${msg}阶段开始`)
+                    setTimeout(resolve,`${msg}000`,`第${msg}阶段结束`)
+                }
+            ).then(
+                (value)=>{
+                    console.log(value)
+                }
+            )
+        }
+        //注意，如果作为参数的Promise实例，自己定义了catch方法，那么它一旦被rejected，并不会触发Promise.all()的catch方法。所以使用Promise.all()别手痒在每个实例promise内添加错误捕获。
+        //需要注意 数组内必须为promis实例
+        Promise.all([msgStage(1),msgStage(2),msgStage(3)]).then(()=>{setTimeout(console.log,1000,'end')})
+
+
+        const tasks = []; // 存放promise对象
+        for(let i = 0; i < 5; i++){
+            tasks.push(new Promise((resolve) => {
+                setTimeout(() => {
+                    console.log(i);
+                    resolve();
+                }, 1000 * i);
+            }));
+        }
+        Promise.all(tasks).then(() => {
+            setTimeout(() => {
+                console.log(tasks.length);
+            }, 1000);
+        });
+        // 每隔一秒输出 0, 1, 2, 3, 4, 5
+
     </script>
     <div>
         <h2>promise 练习</h2>
