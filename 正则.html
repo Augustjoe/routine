@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        //正则的俩种创建方式
+        //直接量
+        var reg = /javascript/
+        var c = console.log
+        c(reg.test('javascript')) //true
+        //RegExp
+        var reg = new RegExp('java') 
+        c(reg.test('java')) //true
+        //字符串的方法
+        var str = 'java'
+        c(str.match(/java/)) // ["java", index: 0, input: "java", groups: undefined]
+
+        //符号的表示含义
+        //字母、数字 -> 自身
+        // \o -> NUL字符(\u0000)
+        // \t -> 制表符(\u0009)
+        // \n -> 换行符(\u000A)
+        // \v -> 垂直制表符(\u000B)
+        // \f -> 换页符(\u000C)
+        // \r -> 回车符(\u000D)
+
+        //字符类   [ ]
+        //. // 除换行符与其他Unicode行终止符以外的任意字符
+        // \w // 等价于[a-zA-Z0-9_]，大小写字母、数字、下划线63字符中任意一个
+        // \W // 等价于[^a-zA-Z0-9_]
+        // \s // 任何Unicode空白符
+        // \S // 任何Unicode非空白符
+        // \d // 等价于[0-9]
+        // \D // 等价于[^0-9]
+        // [\b] // \b放入[]中标识退格直接量
+
+        //重复 描述相同字符，多次出现
+        // {n, m} // 最少重复n次，最多重复m次
+        // {n, } // 至少重复n次
+        // {n} //重复n次
+        // ? // 等价于 {0, 1}
+        // + // 等价于 {1,}
+        // * // 等价于 {0,}
+
+        reg = new RegExp('a{2,}')
+        var a3 =  'aaa'
+        var a1 = 'a' 
+        c(reg.exec(a3))//["aaa", index: 0, input: "aaa", groups: undefined]
+        c(reg.exec(a1))//null
+        c(reg.test(a3)) // true
+
+        //非贪婪重复
+        // 这时候结果为 'aa',实现非贪婪重复很简单，在重复后面添加?即可，这时候，正则表达式会尽可能少的去匹配重复
+        // 用 | 可以分割用于选择的字符，优先级从左向右
+        reg = new RegExp('a{1,2}|b{2,3}')
+        var ab = 'aabb'
+        var b2 = 'bb'
+        c(reg.test(ab),reg.test(b2))
+
+        //子模式 ()  在包裹子表达式同时将其定义为子模式
+        // 我们可以通过 \index 这种写法在同一个正则表达式中调用子模式, index表示子模式的索引，从1开始。
+        //子模式 有些类似与平行匹配 同时将正则与子模式同时匹配
+        reg = new RegExp('aa(a)')
+        c(reg.exec(a3)) //["aaa", "a", index: 0, input: "aaa", groups: undefined]
+
+    </script>
+    <div>
+        <h2>正则练习</h2>
+        <div id="div1"></div>
+    </div>
+</body>
+</html>
