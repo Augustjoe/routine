@@ -40,8 +40,10 @@
         function child1(){
             Person.call(this,'reng')
         }
+        console.log(child.name); //child
         var child = new child1();
         console.log(child.name); // reng
+        console.log(child.job)
         console.log(child instanceof Person); // false
         //关键点：用call或apply将父类构造函数引入子类函数（在子类函数中做了父类函数的自执行（复制））Person.call(this, 'reng')
         // 针对call, apply, bind的使用，之前有篇文章谈谈JavaScript中的call、apply和bind提到。

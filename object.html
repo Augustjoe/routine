@@ -37,8 +37,6 @@
         var obj2 = {d:4};
         var obj3 = { }
         Object.assign(obj3,obj2,obj1) // 合并后的顺序会按照写拷贝的顺序排列
-        obj1.a = 5
-        console.log(obj3,obj2);//{d: 4, a: 1, b: 2, c: 3} {d: 4}
 
         //Object.keys(obj): 返回一个数组，成员是参数对象自身的（不含继承的）所有可遍历（enumerable）属性的键名
         console.log(Object.keys(obj1)) //["a", "b", "c"]
@@ -48,6 +46,27 @@
 
         //Object.entries(obj): 方法返回一个数组，成员是参数对象自身的（不含继承的）所有可遍历（enumerable）属性的键值对数组。
         console.log(Object.entries(obj1)) //[["a", 5],["b", 2],["c", 3]]
+
+        //对象的深拷贝
+        function clone(obj){
+            if(typeof(obj) != 'object') return obj;
+            var r = Array.prototype.splice === obj.splice ? []:{};
+            for(var i in obj){
+                if(obj.hasOwnProperty(i)){
+                    r[i] = clone(obj[i]);
+                }
+            }
+            return r;
+        }
+        //数组、对象都可以for in,同时针对对象必须需要判断hasOwnProperty属性,以防克隆原型链上的属性
+
+        //精准判断对象类型
+        let _typeof = function (data) {
+            let value = /\[object (\w+)\]/.exec(
+                Object.prototype.toString.call(data)
+            );
+            return value ? value[1].toLowerCase() : '';
+        }
     </script>
     <div>
         <h2>对象扩展练习</h2>
