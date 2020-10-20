@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="root">
+        <div>
+            <p>{{name}}</p>
+        </div>
+        <p>{{age}}</p>
+    </div>
+</body>
+</html>
+<script>
+
+    let rootNode = document.querySelector('#root');
+    let data = {
+        name:'lilei',
+        age:'18'
+    }
+    let ref = /\{\{(.+?)\}\}/g;
+    function compiler(template,data){
+        let node = template.childNodes;
+        for(let i = 0; i < node.length; i++){
+            let type = node[i].nodeType
+            if(type === 1){
+                compiler(node[i],data)
+            } else if(type === 3){
+                let value = node[i].nodeValue
+                node[i].nodeValue = value.replace(ref,(_,g)=>{
+                    return data[g.trim()]
+                })
+            }
+        }
+        
+    }
+    let newDOM = rootNode.cloneNode(rootNode)
+    compiler(newDOM,data)
+    rootNode.parentNode.replaceChild(newDOM,rootNode)
+
+</script>
