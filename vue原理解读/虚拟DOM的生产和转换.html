@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="root">
+        <div>第一层</div>
+        <div>第二层</div>
+        <div>第三层</div>
+        <ul>
+            <li>1</li>
+            <li>2</li>
+            <li>3</li>
+            <li>4</li>
+        </ul>
+    </div>
+</body>
+</html>
+<script>
+    class VNode{
+        // tag 标签名称 data标签属性 value 标签内的值 type 是文本还是标签
+        constructor( tag, data, value, type ){
+            this.tag = tag;
+            this.data = data;
+            this.value = value;
+            this.type = type;
+            //用来存放子节点
+            this.children = [ ];
+        }
+        appendChild( vnode ){
+            this.children.push(vnode);
+        }
+    }
+
+    function getVNode(node){
+        // console.log(node.attributes)
+        //先将存储虚拟dom的值设空
+        let _vnode = null
+        if(node.nodeType === 1){
+            //标签
+            let nodeName = node.nodeName
+            let arrts = node.attributes
+            let attrObj = {};
+            for(let i = 0;i<arrts.length;i++){
+                attrObj[arrts[i].nodeName] = arrts[i].nodeValue;
+            }
+            _vnode =new VNode(nodeName, attrObj, undefined, node.nodeType)
+
+            for(let i = 0;i<node.childNodes.length;i++){
+                _vnode.appendChild( getVNode(node.childNodes[i]))
+            }
+        }else if(node.nodeType === 3){
+            _vnode =new VNode(undefined, undefined, node.nodeValue, node.nodeType)
+        }
+        return _vnode
+    }
+    let root = document.querySelector('#root');
+
+    let VRoot = getVNode(root)
+
+    console.log(VRoot);
+     
+    //将虚拟DOM重新渲染为DOM
+
+    function parseVNode(node){
+        let _node = null;
+        if(node.type === 3){
+            return document.createTextNode(node.value)
+        }else if(node.type === 1){
+            _node = document.createElement(node.tag)
+            Object.keys(node.data).forEach((item)=>{
+               _node.setAttribute( item,node.data[item])
+            })
+            node.children && node.children.forEach((ele)=>{
+                _node.appendChild(parseVNode(ele))
+            })
+            return _node;
+        }
+    }
+    let Droot = parseVNode(VRoot);
+    console.log(Droot)
+</script>
