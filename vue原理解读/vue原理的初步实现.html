@@ -36,7 +36,6 @@
     }
     //生成虚拟DOM
     function getVNode(node){
-        // console.log(node.attributes)
         //先将存储虚拟dom的值设空
         let _vnode = null
         if(node.nodeType === 1){
@@ -69,7 +68,7 @@
             return res;
         
     }
-    
+    //将模板和传进的数据进行匹配，生成更新后的虚拟DOM
     function combine(vnode,data){
         let ref = /\{\{(.+?)\}\}/g;
         let _type = vnode.type
@@ -98,11 +97,28 @@
         }
         return _vnode;
     }
-
+    //将虚拟DOM变成真正的DOM
+    function parseVNode(node){
+        let _node = null;
+        if(node.type === 3){
+            return document.createTextNode(node.value)
+        }else if(node.type === 1){
+            _node = document.createElement(node.tag)
+            Object.keys(node.data).forEach((item)=>{
+               _node.setAttribute( item,node.data[item])
+            })
+            node.children && node.children.forEach((ele)=>{
+                _node.appendChild(parseVNode(ele))
+            })
+            return _node;
+        }
+    }
+    
+    
     function JGvue(options){
         this._data = options.data
         this._el = document.querySelector(options.el) //DOM
-
+        this._parentNode = this._el.parentNode
         this.mount(); //挂载
     }
 
@@ -127,14 +143,15 @@
         return function render (){
             
             let _temp = combine(ast ,this._data)
-            console.log(_temp)
             return _temp
         }
     }
 
     //将虚拟dom渲染到页面中，diff算法在此
-    JGvue.prototype.update = function(){
-
+    JGvue.prototype.update = function( vnode ){
+        let realDom = parseVNode(vnode);
+        console.log(realDom)
+        this._parentNode.replaceChild(realDom,document.querySelector('#root'))
     }
 
     let app = new JGvue({
@@ -146,7 +163,7 @@
             one:1,
             two:2,
             thirts:3,
-            fout:4,
+            four:4,
 
         }
     })
