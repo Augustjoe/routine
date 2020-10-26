@@ -14,6 +14,11 @@
     var o = {
         name:'张',
         age:18,
+        count:[
+            {name:'lilei',age:16},
+            {name:'lucy',age:15},
+            {name:'xiaohu',age:18},
+        ]
     }
 
     function defineReactive( target, key, value, enumerable){
@@ -33,8 +38,21 @@
     }
 
     // 将对象转换为响应式
-    Object.keys( o ).forEach(key => {
-        defineReactive( o, key, o[key], true)
-    })
+    function reactify(o){    
+        Object.keys( o ).forEach(key => {
+
+            if(Array.isArray( o[key] )){
+                o[key].map(item =>{
+                    reactify(item)
+                })
+            }else{
+                defineReactive( o, key, o[key], true)
+            }
+        })
+    }
+
+    reactify(o)
+
+    console.log(o)
 
 </script>

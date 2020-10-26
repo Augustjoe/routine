@@ -113,13 +113,72 @@
             return _node;
         }
     }
+    //修改对象的defineproperty
+    function defineReactive( target, key, value, enumerable){
+            let that = this;
+        Object.defineProperty( target, key, {
+            configurable:true,
+            enumerable:!!enumerable,
+            get(){
+                console.log(`读取数据${key}`)
+                return value
+            },
+            set( newVal ){
+                //将赋值的元素进行响应式化
+                reactify(newVal)
+                console.log(`修改数据${newVal}`)
+                value = newVal
+                that.mountComponant();
+
+            }
+        })
+    }
+    let arr_methode = Object.create( Array.prototype )
+    let arrFunction = [
+        'push',
+        'pop',
+        'shift',
+        'unshift',
+        'reverse',
+        'sort',
+        'splice',
+    ]
+    //遍历修改数组原型
+    arrFunction.forEach(item =>{
+       arr_methode[item] = function(){
+          console.log('方法已改写')
+          //将新添加的元素修改为响应式
+          for(let i = 0;i<arguments.length;i++){
+            reactify(arguments[i])
+          }
+          //继承原型方法
+          let res = Array.prototype[item].apply(this,arguments)
+          return res
+       }
+    })
+    // 将对象转换为响应式
+    function reactify(o,vm){    
+        Object.keys( o ).forEach(key => {
+
+            if(Array.isArray( o[key] )){
+                o[key].__proto__ = arr_methode
+                o[key].forEach(item =>{
+                    reactify(item)
+                })
+            }else{
+                defineReactive.call( vm, o, key, o[key], true)
+            }
+        })
+    }
     
-    
+
+   
     function JGvue(options){
         this._data = options.data
         this._el = document.querySelector(options.el) //DOM
         this._parentNode = this._el.parentNode
         this.mount(); //挂载
+        reactify(this._data,this);
     }
 
     JGvue.prototype.mount = function(){
@@ -164,7 +223,11 @@
             two:2,
             thirts:3,
             four:4,
-
+            count:[
+                {name:'语文',num:'99'},
+                {name:'数学',num:'79'},
+                {name:'英语',num:'89'},
+            ]
         }
     })
 </script>

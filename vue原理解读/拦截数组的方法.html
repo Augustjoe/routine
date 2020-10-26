@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+</html>
+<script>
+    function fun1(){
+        console.log('基础功能')
+    }
+    let fun = fun1;
+    fun1 = function (){
+        console.log('升级功能')
+        fun()
+    }
+
+
+
+    let arrFunction = [
+        'push',
+        'pop',
+        'shift',
+        'unshift',
+        'reverse',
+        'sort',
+        'splice',
+    ]
+    //原型式继承
+    let arr = [];
+    //获取数组的原型方法
+    let arr_methode = Object.create( Array.prototype )
+    //遍历修改
+    arrFunction.forEach(item =>{
+       arr_methode[item] = function(){
+          console.log('方法已改写')
+          //将新添加的元素修改为响应式
+        //   for(let i = 0;i<arguments.length;i++){
+        //     reactify(arguments[i])
+        //   }
+          //继承原型方法
+          let res = Array.prototype[item].apply(this,arguments)
+          return res
+       }
+    })
+    //将修改后的方法赋值给数组
+    arr.__proto__ = arr_methode;
+
+</script>
