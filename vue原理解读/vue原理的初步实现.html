@@ -125,11 +125,11 @@
             },
             set( newVal ){
                 //将赋值的元素进行响应式化
-                reactify(newVal)
+                // typeof newVal === 'Object' && reactify(newVal,that)
+                // reactify(newVal,that)
                 console.log(`修改数据${newVal}`)
                 value = newVal
                 that.mountComponant();
-
             }
         })
     }
@@ -177,8 +177,8 @@
         this._data = options.data
         this._el = document.querySelector(options.el) //DOM
         this._parentNode = this._el.parentNode
+        this.initData()
         this.mount(); //挂载
-        reactify(this._data,this);
     }
 
     JGvue.prototype.mount = function(){
@@ -211,6 +211,42 @@
         let realDom = parseVNode(vnode);
         console.log(realDom)
         this._parentNode.replaceChild(realDom,document.querySelector('#root'))
+    }
+
+    JGvue.prototype.initData = function(){
+        Object.keys(this._data).forEach(keys =>{
+        //将this._data变成相应式
+            reactify(this._data,this)
+
+            proxy(this,'_data',keys)
+
+        })
+    }
+
+    //修改映射
+    function proxy(target, prop, key){
+        Object.defineProperty(target,key ,{
+            enumerable:true,
+            configurable:true,
+            get(){
+                return this[prop][key]
+            },
+            set(newVal){
+                this[porp][key] = newVal
+            }
+        })
+    }
+    
+    function observer(obj, vm) {
+        Object.keys(obj).forEach(keys =>{
+            if( Array.isArray( obj[ keys ] ) ){
+                obj.keys.forEach(item =>{
+                    observer(item,vm)
+                })
+            } else {
+                observer(obj[ keys ],vm)
+            }
+        })
     }
 
     let app = new JGvue({
