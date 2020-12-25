@@ -67,6 +67,43 @@
             );
             return value ? value[1].toLowerCase() : '';
         }
+        //对象变成伪数组
+        let FailArry = {};
+        let i  = 0;
+        while(i<10){
+            FailArry[i] = i * i;
+            i++
+        }
+        FailArry.length = i;
+        console.log(FailArry); // 只能用数组类似的递归但不能用ES6的方法
+
+        //判断类数组对象arguments
+        //先判断其是不是一个类数组对象
+        //字符串和数组都有length属性，但他们可以通过typeof排除
+        //DOM节点也有length属性需要用额外的nodeType属性将其排除
+        // function isArryLike(arrLike){
+        //     if(arrLike &&
+        //        typeof arrLike === 'object' &&                   //arrLike 要是对象
+        //        isFinite(arrLike.length) &&                      //length属性是有限数值 isFinite用来测试是否是有限的数字
+        //        arrLike.length >= 0 &&                           //length为非负值
+        //        arrLike.length === Math.floor(arrLike.length) && //判断是不是整数
+        //        arrLike.length < 4,294,967,296)                  //length小于2的32次方
+        //        return true
+        //     else 
+        //        return false
+        // }
+        function isArryLike(arrLike){
+            if(arrLike && (typeof arrLike === 'object') && (isFinite(arrLike.length)) && (arrLike.length >= 0) &&  (arrLike.length === Math.floor(arrLike.length)) && (arrLike.length < 4,294,967,296)) {
+                return true
+            }else {
+                return false
+            }
+        }
+        console.log(isArryLike(FailArry))
+        //伪数组可以使用数组的方法
+        let arrlikeSlice = Array.prototype.slice.call(FailArry)
+        console.log(arrlikeSlice)
+
     </script>
     <div>
         <h2>对象扩展练习</h2>

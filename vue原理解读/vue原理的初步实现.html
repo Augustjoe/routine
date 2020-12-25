@@ -223,7 +223,7 @@
         })
     }
 
-    //修改映射
+    //修改映射 为了保护数据，确保数据私有，将访问的数据映射到vue实例中
     function proxy(target, prop, key){
         Object.defineProperty(target,key ,{
             enumerable:true,
@@ -232,7 +232,7 @@
                 return this[prop][key]
             },
             set(newVal){
-                this[porp][key] = newVal
+                this[prop][key] = newVal
             }
         })
     }
