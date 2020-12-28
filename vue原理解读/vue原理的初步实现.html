@@ -124,11 +124,14 @@
                 return value
             },
             set( newVal ){
-                //将赋值的元素进行响应式化
-                // typeof newVal === 'Object' && reactify(newVal,that)
-                // reactify(newVal,that)
                 console.log(`修改数据${newVal}`)
+                // 将新传入的值变为响应式，如果对象则将对象中的元素也变成响应式
+                if(typeof newVal === "object" && newVal != null){
+                    observer(newVal)
+                }
+
                 value = newVal
+
                 that.mountComponant();
             }
         })
@@ -156,19 +159,35 @@
           return res
        }
     })
-    // 将对象转换为响应式
-    function reactify(o,vm){    
-        Object.keys( o ).forEach(key => {
+    
+    // 将对象转换为响应式 没有对O本身进行响应式，对数组无效有缺陷
+    // function reactify(o,vm){    
+    //     Object.keys( o ).forEach(key => {
 
-            if(Array.isArray( o[key] )){
-                o[key].__proto__ = arr_methode
-                o[key].forEach(item =>{
-                    reactify(item)
-                })
-            }else{
-                defineReactive.call( vm, o, key, o[key], true)
-            }
-        })
+    //         if(Array.isArray( o[key] )){
+    //             o[key].__proto__ = arr_methode
+    //             o[key].forEach(item =>{
+    //                 reactify(item)
+    //             })
+    //         }else{
+    //             defineReactive.call( vm, o, key, o[key], true)
+    //         }
+    //     })
+    // }
+
+    // 新的响应式处理函数
+    function observe(obj,vm){
+        if(Array.isArray(obj)){
+            // 修改数据的原型方法
+            obj._proto_ = arrFunction;
+            obj.forEach((item,index)=>{
+                observer(item,vm)
+            })
+        }else{
+            Object.keys(obj).forEach(item=>{
+                defineReactive.call(vm,obj,item,obj[item],true)
+            })
+        }
     }
     
 
@@ -216,8 +235,8 @@
     JGvue.prototype.initData = function(){
         Object.keys(this._data).forEach(keys =>{
         //将this._data变成相应式
-            reactify(this._data,this)
-
+            // reactify(this._data,this)
+            observer(this._data,this)
             proxy(this,'_data',keys)
 
         })
