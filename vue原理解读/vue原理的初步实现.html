@@ -116,6 +116,11 @@
     //修改对象的defineproperty
     function defineReactive( target, key, value, enumerable){
             let that = this;
+        
+        if(typeof newVal === "object" && newVal != null){
+            observer(value)
+        }
+
         Object.defineProperty( target, key, {
             configurable:true,
             enumerable:!!enumerable,
@@ -152,7 +157,7 @@
           console.log('方法已改写')
           //将新添加的元素修改为响应式
           for(let i = 0;i<arguments.length;i++){
-            reactify(arguments[i])
+            observer(arguments[i])
           }
           //继承原型方法
           let res = Array.prototype[item].apply(this,arguments)
@@ -176,7 +181,7 @@
     // }
 
     // 新的响应式处理函数
-    function observe(obj,vm){
+    function observer(obj,vm){
         if(Array.isArray(obj)){
             // 修改数据的原型方法
             obj._proto_ = arrFunction;
@@ -256,17 +261,17 @@
         })
     }
     
-    function observer(obj, vm) {
-        Object.keys(obj).forEach(keys =>{
-            if( Array.isArray( obj[ keys ] ) ){
-                obj.keys.forEach(item =>{
-                    observer(item,vm)
-                })
-            } else {
-                observer(obj[ keys ],vm)
-            }
-        })
-    }
+    // function observer(obj, vm) {
+    //     Object.keys(obj).forEach(keys =>{
+    //         if( Array.isArray( obj[ keys ] ) ){
+    //             obj.keys.forEach(item =>{
+    //                 observer(item,vm)
+    //             })
+    //         } else {
+    //             observer(obj[ keys ],vm)
+    //         }
+    //     })
+    // }
 
     let app = new JGvue({
         el:'#root',
