@@ -13,12 +13,19 @@ var serve = http.createServer()
 serve.on('request', function (Request, Response) {
   console.log("请求已经收到,请求的路径是" + Request.url)
 
+  // 也可以拿到用户的IP地址和端口号
+  // ip地址用来定位计算机 端口号用来定位具体的应用程序
+  // 所有需要联网通信的应用程序都会占用端口号 端口号范围为 0-65536 默认的端口号尽量不要使用 
+  console.log('请求我的客户端地址是' + Request.socket.remoteAddress,Request.socket.remotePort)
+
 
   //  响应回去的数据必须是字符串或者二进制数据 可以用JSON
   Response.write(
     JSON.stringify(
-      [{name: '张三',
-      age: "18"}]
+      [
+        {name: '张三',
+        age: "18"}
+      ]
     )
   )
 
