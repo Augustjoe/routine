@@ -1,0 +1,9 @@
+{
+    "tableData":[
+        {"name":"lilei","age":18,"sex":"男","production":23000},
+        {"name":"zhangsan","age":32,"sex":"女","production":23080},
+        {"name":"wangwu","age":21,"sex":"男","production":23700},
+        {"name":"lisi","age":24,"sex":"女","production":23600},
+        {"name":"qiliu","age":16,"sex":"男","production":24000}
+    ]
+}
