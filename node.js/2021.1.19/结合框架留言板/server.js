@@ -1,5 +1,6 @@
 const bodyParser = require('body-parser');
 var express = require('express'); 
+var router = require('./router')
 var server = express()
 
 // 设置模板引擎，当文件以art结尾时，都用模板引擎express来进行解析
@@ -13,37 +14,16 @@ server.engine('html',require('express-art-template'));
 // server.set("view",要使用的路径)
 
 
-// 当使用
+// 当使用post时，需要引入此模块，并处理json,这些配置一定要在挂载路由之前
 server.use(bodyParser.urlencoded({extended : false}));
 server.use(bodyParser.json())
 
+// 导出的函数，可直接传参
+// router(server,templateData)
 
-var templateData = {
-    msgArr:[
-        {
-            name:"小王",value:"入关 入关！",date:"2021.01.31"
-        }
-    ]
-}
+server.use(router);
 
-server.get('/',(req,res)=>{
-    res.render("index.html",templateData)
-})
 
-server.get('/post',(req,res)=>{
-    res.render("post.html",templateData)
-})
-
-server.post('/pinglun',(req,res)=>{
-    console.log(req.body)
-    var msgData = req.body
-    templateData.msgArr.push({
-        name:msgData.name,
-        value:msgData.msg,
-        date:'2021.01.20'
-    })
-    res.redirect('/')
-})
 // server.get('/pinglun',(req,res)=>{
 //     console.log(req.query)
 //     templateData.msgArr.push({

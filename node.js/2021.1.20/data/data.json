@@ -1,9 +1,1 @@
-{
-    "tableData":[
-        {"name":"lilei","age":18,"sex":"男","production":23000},
-        {"name":"zhangsan","age":32,"sex":"女","production":23080},
-        {"name":"wangwu","age":21,"sex":"男","production":23700},
-        {"name":"lisi","age":24,"sex":"女","production":23600},
-        {"name":"qiliu","age":16,"sex":"男","production":24000}
-    ]
-}
+{"tableData":[{"name":"lilei","age":18,"sex":"男","production":23000},{"name":"zhangsan","age":32,"sex":"女","production":23080},{"name":"wangwu","age":21,"sex":"男","production":23700},{"name":"lisi","age":24,"sex":"女","production":23600},{"name":"qiliu","age":16,"sex":"男","production":24000},{"name":"周一","age":"19","sex":"男","production":"20000","id":1611218586355},{"name":"周一","age":"19","sex":"男","production":"20000","id":1611218586987},{"name":"周一","age":"19","sex":"男","production":"20000","id":1611218640323},{"name":"111","age":"19","sex":"男","production":"20000","id":1611218664058}]}
