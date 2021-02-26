@@ -1,5 +1,7 @@
 ## 需要的依赖
-  - express mongoose
+  - express mongoose art-template  express-art-template
+  - 出现 无法加载文件 C:\Users\WCS19\AppData\Roaming\npm\nodemon.ps1，因为在此系统上禁止运行脚本 的解决方法
+    + set-ExecutionPolicy RemoteSigned 
 
 ## path路径操作模块系统
   - path.basename
