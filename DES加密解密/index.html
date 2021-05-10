@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script src="https://cdn.bootcss.com/crypto-js/3.1.9-1/crypto-js.min.js"></script>
+    <script>
+        function encryptByDES(message, key) {
+            var keyHex = CryptoJS.enc.Utf8.parse(key);
+            var encrypted = CryptoJS.DES.encrypt(message, keyHex, {
+                mode: CryptoJS.mode.ECB,
+                padding: CryptoJS.pad.Pkcs7
+            });
+            return encrypted.ciphertext.toString();
+        }
+        //DES解密
+        function decryptByDES(ciphertext, key) {
+            var keyHex = CryptoJS.enc.Utf8.parse(key);
+            console.log(keyHex)
+            var decrypted = CryptoJS.DES.decrypt({
+                ciphertext: CryptoJS.enc.Hex.parse(ciphertext)
+            }, keyHex, {
+                mode: CryptoJS.mode.ECB,
+                padding: CryptoJS.pad.Pkcs7
+            });
+            console.log(decrypted)
+            var result_value = decrypted.toString(CryptoJS.enc.Utf8);
+            console.log(result_value)
+            return result_value;
+        }
+
+        var message = "'1111'"; //需要加密的数据
+        var key = 'tkcwuhan'; //加密key
+        //加密
+        desMessage = encryptByDES(message, key);
+        console.log(desMessage);
+        //解密
+        message = decryptByDES('4c180c3e64ad8ca7', key)
+        console.log(message);
+    </script>
+</body>
+
+</html>
