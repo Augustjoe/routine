@@ -15,7 +15,21 @@
       ref(xx) -> reactive({value:xx})
    3. 在html中不必通过value获取值，但在js中需要value属性去修改和获取值
  # ref和reactive的区别
-   ref类型的数据会在html中自动添加value，reactive不会。
-   vue3会通过自有属性 __v_ref 来进行判断
-   vue3提供了 isRef 和 isReactive 来对两种类型的值进行判断
+   1. ref类型的数据会在html中自动添加value，reactive不会。
+   2. vue3会通过自有属性 __v_ref 来进行判断
+   3. vue3提供了 isRef 和 isReactive 来对两种类型的值进行判断
+ # 递归函数监听
+   1. ref和reactive都可以将嵌套对象的每一层包装成proxy对象进行数据监听，但及其消耗性能 
+
+   ## 为此vue3新增了两个数组函数 shallowReactive shallowRef 
+   ### shallowReactive
+     shallowReactive 只会将多层级对象的第一层包装为proxy对象
+   * 只有更新第一层级的数据页面才会刷新，其他情况页面不会刷新
+   ### shallowRef
+    shallowRef 只会监听第一层对象的value，当其更新时，页面才会刷新
+   * 只会监听value数据，如果更改第一层的原数据页面不会刷新,需更新整个数据才会更新
+   * 为应对刷新的特殊情况，vue提供了triggerRef方法，只需将数据再传入triggerRef中，即可刷新相关组件
+   * shallowRef（data） 本质依然是调用shallowReactive（{value：data}），所以许多特性都可迎刃而解
+
+
     

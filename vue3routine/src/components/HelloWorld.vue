@@ -18,20 +18,29 @@
     <div>
       <h1>多层级嵌套练习</h1>
       <p>{{obj.gf}}</p>
-      <p>{{obj.gf.fb.fb}}</p>
-      <p>{{obj.gf.fb.cl.cl}}</p>
+      <p>{{obj.fd.fd}}</p>
+      <p>{{obj.fd.cl.cl}}</p>
     </div>
     <button @click="changeObj">更改数据</button>
   </div>
 </template>
 
+
 <script>
-import { ref,shallowRef } from "vue";
+import { ref } from "vue";
 // ref 可用来监听简单数据的变化
 
-import { reactive,shallowReactive } from "vue";
+import { reactive } from "vue";
 // reactive 可监听相对复杂的数据 
+
+import {shallowReactive} from "vue"
 // 为节省性能，可使用shallowReactive，只对一层级进行响应式改变
+
+import { shallowRef } from "vue"
+// 同样ref 也有配套的方法 shallowRef
+
+import { triggerRef } from "vue"
+// 整个方法可重新渲染页面数据
 
 export default {
   name: "HelloWorld",
@@ -46,8 +55,29 @@ export default {
     }
     let { stuList, remList } = userList();
     let {addStuObj,addStuList} = addStu(stuList) 
+    // reactive 和 ref 可将每一层对象包装成proxy对象
+    // let obj = reactive({
+    //   gf:'gf',
+    //   fd:{
+    //     fd:'fd',
+    //     cl:{
+    //       cl:'cl'
+    //     }
+    //   } 
+    // })
 
-    let obj = reactive({
+    // shallowReactive 为节约性能只讲第一层包装成proxy对象
+    //  let obj = shallowReactive({
+    //   gf:'gf',
+    //   fd:{
+    //     fd:'fd',
+    //     cl:{
+    //       cl:'cl'
+    //     }
+    //   } 
+    // })
+    // shallowRef 也只会包装第一层数据
+     let obj = shallowRef({
       gf:'gf',
       fd:{
         fd:'fd',
@@ -57,8 +87,16 @@ export default {
       } 
     })
 
-    function changeObj(obj){
-      
+    function changeObj(){
+      // 当更新第一层的数据时，页面会随之刷新，但只更新其他数据时，不会刷新
+      obj.value.gf += 1;
+      obj.value.fd.fd += 1;
+      obj.value.fd.cl.cl += 1;
+
+      triggerRef(obj)
+      console.log(obj)
+      console.log(obj.value.fd)
+      console.log( obj.value.fd.cl)
     }
 
     return { msg, addMsg, stuList, remList, addStuObj ,addStuList,obj,changeObj};
