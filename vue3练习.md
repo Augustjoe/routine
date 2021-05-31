@@ -30,6 +30,15 @@
    * 只会监听value数据，如果更改第一层的原数据页面不会刷新,需更新整个数据才会更新
    * 为应对刷新的特殊情况，vue提供了triggerRef方法，只需将数据再传入triggerRef中，即可刷新相关组件
    * shallowRef（data） 本质依然是调用shallowReactive（{value：data}），所以许多特性都可迎刃而解
+ # toRaw 
+   获取页面相应数据的原数据，原数据被修改时，页面不会刷新
+ # markRaw
+   markRaw会取消值与页面的绑定，无论如何修改无法刷新页面
+ # toRef toRefs
+   可对特定值做浅拷贝，toRef(obj,key)
+   toRefs 可对传入对象的所有键值做toRef操作 
+ # customRef
+   customRef可灵活定义ref方法，使其根据具体情况调整，并可使用 track 和 trigcer 追踪数据或刷新页面
 
 
     
