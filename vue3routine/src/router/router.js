@@ -6,6 +6,7 @@ import HelloWorld from '../components/HelloWorld.vue'
 import toRawTest from '../components/toRawTest.vue'
 import toRefAndtoRefs from '../components/toRefAndtoRefs.vue'
 import customRef from '../components/customRef.vue'
+import readonly from '../components/readonly.vue'
 
 const router = createRouter({
     history: createWebHistory(),
@@ -25,6 +26,10 @@ const router = createRouter({
         {
             path: "/customRef",
             component: customRef
+        },
+        {
+            path: "/readonly",
+            component: readonly
         },
     ]
 })

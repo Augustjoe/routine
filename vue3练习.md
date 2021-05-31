@@ -39,6 +39,22 @@
    toRefs 可对传入对象的所有键值做toRef操作 
  # customRef
    customRef可灵活定义ref方法，使其根据具体情况调整，并可使用 track 和 trigcer 追踪数据或刷新页面
-
+ # readonly
+   readonly可将数据变成只读，不同与const，会将对象的每个层级变为只读，
+   * shallowReadonly 只会将第一层级变为只读，深层依旧可以更改
+   * isReadonly 可判断数据是否只读
+ # vue3 响应式数据的本质
+   通过proxy，改写 set 和 get 方法
+   在 set 中更改数据时，如更改完成一定要返回一个true 否则会报错
+   let obj = new Proxy{obj,handler:{
+     get(obj,key){
+       <!-- obj:要读取的对象 key：要读取对象的键值 -->
+     },
+     set(obj,key,value){
+       <!-- obj:要读取的对象 key：要读取对象的键值 value:将被改变的值 -->
+       return true
+       <!-- 返回一个true告知修改已经完成 -->
+     }
+   }}
 
     
